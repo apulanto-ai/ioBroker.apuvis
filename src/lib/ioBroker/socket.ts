@@ -30,7 +30,7 @@ export function connect(url: string): Promise<void> {
     const effectiveUrl = window.location.origin
     currentUrl = url
     socket = io(effectiveUrl, {
-      transports: ['websocket'],
+      transports: ['polling', 'websocket'],
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 10000,
