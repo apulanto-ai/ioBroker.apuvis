@@ -1,5 +1,5 @@
-import { getObjectView, getObjects } from './iobroker-api'
-import type { IoBrokerEnumObject } from './iobroker-types'
+import { getObjects } from './iobroker-api'
+import { getConnection } from './socket'
 
 export interface DiscoveredRoom {
   id: string
@@ -21,24 +21,15 @@ export interface DiscoveredDataPoint {
 }
 
 export async function discoverRooms(): Promise<DiscoveredRoom[]> {
-  try {
-    const result = await getObjectView('system', 'enum', {
-      startkey: 'enum.rooms.',
-      endkey: 'enum.rooms.香',
-    })
-
-    return result.rows
-      .map(r => r.value as IoBrokerEnumObject)
-      .filter(obj => obj.type === 'enum')
-      .map(obj => ({
-        id: obj._id,
-        name: getName(obj.common.name),
-        memberIds: obj.common.members ?? [],
-      }))
-      .filter(r => r.memberIds.length > 0)
-  } catch {
-    return []
-  }
+  const conn = getConnection()
+  const enums = await conn.getEnums('rooms')
+  return Object.values(enums)
+    .map(obj => ({
+      id: obj._id,
+      name: getName(obj.common.name),
+      memberIds: (obj.common.members as string[]) ?? [],
+    }))
+    .filter(r => r.memberIds.length > 0)
 }
 
 export async function discoverDataPoints(memberIds: string[]): Promise<DiscoveredDataPoint[]> {

@@ -17,10 +17,10 @@ export default function Step2_RoomDiscovery() {
     setLoading(true)
     discoverRooms()
       .then((discovered) => {
-        if (discovered.length === 0) setError('Keine Räume gefunden. Stelle sicher, dass enum.rooms in ioBroker konfiguriert sind.')
+        if (discovered.length === 0) setError('Keine Räume gefunden. Stelle sicher, dass unter Aufzählungen → Räume Geräte zugeordnet sind.')
         else setDiscoveredRooms(discovered)
       })
-      .catch(() => setError('Fehler beim Laden der Räume.'))
+      .catch((e: unknown) => setError(`Fehler beim Laden der Räume: ${e instanceof Error ? e.message : String(e)}`))
       .finally(() => setLoading(false))
   }, [])
 
