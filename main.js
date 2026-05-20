@@ -1,4 +1,6 @@
-import utils from '@iobroker/adapter-core';
+'use strict';
+
+const utils = require('@iobroker/adapter-core');
 
 class ApuvisAdapter extends utils.Adapter {
     constructor(options) {
@@ -31,4 +33,8 @@ class ApuvisAdapter extends utils.Adapter {
     }
 }
 
-new ApuvisAdapter();
+if (require.main === module) {
+    new ApuvisAdapter();
+} else {
+    module.exports = (options) => new ApuvisAdapter(options);
+}
