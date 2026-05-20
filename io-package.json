@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "apuvis",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "news": {
+      "0.0.3": {
+        "en": "Fix: remove type:module, main.js uses CommonJS",
+        "de": "Fix: type:module entfernt, main.js nutzt wieder CommonJS"
+      },
       "0.0.2": {
         "en": "Fix: convert main.js to ESM",
         "de": "Fix: main.js auf ESM umgestellt"
