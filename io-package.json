@@ -42,9 +42,9 @@
     "wwwDontUpload": false,
     "noConfig": false,
     "noIntro": false,
-    "readme": "https://github.com/apulanto/ioBroker.apuvis/blob/main/README.md",
+    "readme": "https://github.com/apulanto-ai/ioBroker.apuvis/blob/main/README.md",
     "icon": "admin/apuvis-icon.png",
-    "extIcon": "https://raw.githubusercontent.com/apulanto/ioBroker.apuvis/main/admin/apuvis-icon.png",
+    "extIcon": "https://raw.githubusercontent.com/apulanto-ai/ioBroker.apuvis/main/admin/apuvis-icon.png",
     "dependencies": [
       {
         "js-controller": ">=5.0.0"

@@ -17,7 +17,7 @@ Modernes, interaktives ioBroker-Dashboard als Adapter. Ersetzt den alten VIS-Ada
 1. ioBroker Admin öffnen → **Adapter** → **Von URL installieren** (GitHub-Icon oben)
 2. URL eingeben:
    ```
-   https://github.com/apulanto/ioBroker.apuvis
+   https://github.com/apulanto-ai/ioBroker.apuvis
    ```
 3. Installieren → Instanz erstellen
 4. Dashboard öffnen: `http://<iobroker-ip>:8082/apuvis/`
