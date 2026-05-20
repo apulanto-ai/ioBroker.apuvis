@@ -1,9 +1,4 @@
-'use strict';
-
-// apuVIS Adapter — minimal daemon that hosts the React SPA via iobroker.web
-// The actual dashboard is in www/ and served by the web adapter at /apuvis/
-
-const utils = require('@iobroker/adapter-core');
+import utils from '@iobroker/adapter-core';
 
 class ApuvisAdapter extends utils.Adapter {
     constructor(options) {
@@ -36,8 +31,4 @@ class ApuvisAdapter extends utils.Adapter {
     }
 }
 
-if (require.main !== module) {
-    module.exports = (options) => new ApuvisAdapter(options);
-} else {
-    new ApuvisAdapter();
-}
+new ApuvisAdapter();
