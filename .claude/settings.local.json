@@ -33,7 +33,22 @@
       "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm run build 2>&1 | Select-String -Pattern \"error|warning|built\" | Select-Object -First 20)",
       "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\CODING\\\\apuVIS\\\\admin\")",
       "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm install @iobroker/adapter-core 2>&1 | Select-String \"added|error\" | Select-Object -First 5)",
-      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; git init; git add .; git commit -m \"Initial release: ioBroker.apuvis v0.0.1\" 2>&1)"
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; git init; git add .; git commit -m \"Initial release: ioBroker.apuvis v0.0.1\" 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; git config user.email \"apulanto@protonmail.com\"; git config user.name \"apulanto\"; git commit -m \"Initial release: ioBroker.apuvis v0.0.1\" 2>&1 | Select-Object -Last 5)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); gh auth status 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; git add io-package.json README.md package.json; git commit -m \"fix: use apulanto-ai GitHub username\" 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; gh repo create apulanto-ai/ioBroker.apuvis --public --description \"Modern interactive ioBroker dashboard with setup wizard\" --push --source . 2>&1)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git tag *)",
+      "Bash(gh release *)",
+      "Bash(gh api *)",
+      "Bash(npm run *)",
+      "Bash(npm info *)",
+      "Bash(npm install *)",
+      "Bash(node -e \"const c = require\\('@iobroker/socket-client'\\); console.log\\(Object.keys\\(c\\)\\)\")",
+      "Bash(node -e \"const {Connection} = require\\('@iobroker/socket-client'\\); const c = new Connection\\({protocol:'ws', host:'10.0.0.111', port: 8082}\\); console.log\\(Object.getOwnPropertyNames\\(Object.getPrototypeOf\\(c\\)\\).filter\\(m => !m.startsWith\\('_'\\)\\).join\\('\\\\n'\\)\\)\")"
     ]
   }
 }

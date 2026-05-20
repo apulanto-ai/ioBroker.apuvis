@@ -1,14 +1,14 @@
 import { create } from 'zustand'
-import { getSocket } from '../lib/ioBroker/socket'
-import { subscribeStates, unsubscribeStates, getState } from '../lib/ioBroker/iobroker-api'
-import { trackSubscription, untrackSubscription } from '../lib/ioBroker/socket'
+import { getConnection } from '../lib/ioBroker/socket'
 import type { IoBrokerState } from '../lib/ioBroker/iobroker-types'
+
+// Per-ID state change handlers for clean unsubscription
+const stateHandlers = new Map<string, ioBroker.StateChangeHandler>()
 
 interface StatesState {
   states: Record<string, IoBrokerState | null>
   refCounts: Record<string, number>
 
-  _handleStateChange: (id: string, state: IoBrokerState | null) => void
   subscribe: (id: string) => void
   unsubscribe: (id: string) => void
   setState: (id: string, value: unknown) => void
@@ -19,26 +19,20 @@ export const useStatesStore = create<StatesState>((set, get) => ({
   states: {},
   refCounts: {},
 
-  _handleStateChange: (id, state) => {
-    set((s) => ({ states: { ...s.states, [id]: state } }))
-  },
-
   subscribe: async (id) => {
-    const s = get()
-    const count = s.refCounts[id] ?? 0
-
-    set((st) => ({
-      refCounts: { ...st.refCounts, [id]: count + 1 },
-    }))
+    const count = get().refCounts[id] ?? 0
+    set((s) => ({ refCounts: { ...s.refCounts, [id]: count + 1 } }))
 
     if (count === 0) {
-      trackSubscription(id)
+      const handler: ioBroker.StateChangeHandler = (stateId, state) => {
+        set((s) => ({ states: { ...s.states, [stateId ?? id]: state as IoBrokerState | null } }))
+      }
+      stateHandlers.set(id, handler)
       try {
-        subscribeStates(id)
-        const current = await getState(id)
-        set((st) => ({ states: { ...st.states, [id]: current } }))
+        // subscribeState calls handler immediately with current value, then on every change
+        await getConnection().subscribeState(id, handler)
       } catch {
-        // socket might not be ready yet; state will arrive via stateChange
+        // not connected yet; will be subscribed on next connect
       }
     }
   },
@@ -51,11 +45,14 @@ export const useStatesStore = create<StatesState>((set, get) => ({
         delete refCounts[id]
         return { refCounts }
       })
-      untrackSubscription(id)
-      try {
-        unsubscribeStates(id)
-      } catch {
-        // ignore if socket is gone
+      const handler = stateHandlers.get(id)
+      if (handler) {
+        stateHandlers.delete(id)
+        try {
+          getConnection().unsubscribeState(id, handler)
+        } catch {
+          // ignore if disconnected
+        }
       }
     } else {
       set((s) => ({ refCounts: { ...s.refCounts, [id]: count - 1 } }))
@@ -64,21 +61,15 @@ export const useStatesStore = create<StatesState>((set, get) => ({
 
   setState: (id, value) => {
     const current = get().states[id]
-    // optimistic update
     set((s) => ({
       states: {
         ...s.states,
         [id]: current ? { ...current, val: value as IoBrokerState['val'], ack: false } : null,
       },
     }))
-
     try {
-      const socket = getSocket()
-      socket.emit('setState', id, value, (err: string | null) => {
-        if (err) {
-          // rollback on error
-          set((s) => ({ states: { ...s.states, [id]: current ?? null } }))
-        }
+      getConnection().setState(id, value as ioBroker.StateValue).catch(() => {
+        set((s) => ({ states: { ...s.states, [id]: current ?? null } }))
       })
     } catch {
       set((s) => ({ states: { ...s.states, [id]: current ?? null } }))

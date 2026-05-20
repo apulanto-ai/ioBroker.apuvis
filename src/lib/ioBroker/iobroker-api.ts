@@ -1,64 +1,79 @@
-import { getSocket } from './socket'
+import { getConnection } from './socket'
 import type { IoBrokerState, IoBrokerObject, IoBrokerSystemConfig, HistoryOptions, HistoryDataPoint } from './iobroker-types'
 
-function emit<T>(event: string, ...args: unknown[]): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const socket = getSocket()
-    socket.emit(event, ...args, (err: string | null, result: T) => {
-      if (err) reject(new Error(err))
-      else resolve(result)
-    })
-  })
+let _objectsCache: Record<string, ioBroker.Object> | null = null
+
+export function clearObjectsCache() {
+  _objectsCache = null
+}
+
+async function getAllObjects(): Promise<Record<string, IoBrokerObject>> {
+  const conn = getConnection()
+  if (!_objectsCache) {
+    _objectsCache = await conn.getObjects(true, true)
+  }
+  return _objectsCache as Record<string, IoBrokerObject>
 }
 
 export async function getSystemConfig(): Promise<IoBrokerSystemConfig> {
-  const result = await emit<{ common: IoBrokerSystemConfig }>('getObject', 'system.config')
-  return result.common
+  const conn = getConnection()
+  const obj = await conn.getObject('system.config')
+  return (obj as unknown as { common: IoBrokerSystemConfig }).common
 }
 
 export async function getObject(id: string): Promise<IoBrokerObject | null> {
-  return emit<IoBrokerObject | null>('getObject', id)
+  const conn = getConnection()
+  return conn.getObject(id) as Promise<IoBrokerObject | null>
 }
 
 export async function getObjects(pattern: string): Promise<Record<string, IoBrokerObject>> {
-  return emit<Record<string, IoBrokerObject>>('getObjects', pattern)
+  const all = await getAllObjects()
+  if (pattern === '*' || !pattern.includes('*')) return all
+
+  const prefix = pattern.replace(/\*.*$/, '')
+  const filtered: Record<string, IoBrokerObject> = {}
+  for (const [id, obj] of Object.entries(all)) {
+    if (id.startsWith(prefix)) filtered[id] = obj
+  }
+  return filtered
 }
 
 export async function getObjectView(
-  design: string,
-  search: string,
+  _design: string,
+  _search: string,
   params: { startkey?: string; endkey?: string }
 ): Promise<{ rows: Array<{ id: string; value: IoBrokerObject }> }> {
-  return emit('getObjectView', design, search, params)
+  const all = await getAllObjects()
+  const start = params.startkey ?? ''
+  const end = params.endkey ?? '￿'
+  const rows = Object.entries(all)
+    .filter(([id]) => id >= start && id <= end)
+    .map(([id, value]) => ({ id, value }))
+  return { rows }
 }
 
 export async function getState(id: string): Promise<IoBrokerState | null> {
-  return emit<IoBrokerState | null>('getState', id)
+  const conn = getConnection()
+  return conn.getState(id) as Promise<IoBrokerState | null>
 }
 
 export async function getStates(ids: string[]): Promise<Record<string, IoBrokerState>> {
-  return emit<Record<string, IoBrokerState>>('getStates', ids)
+  const conn = getConnection()
+  const pattern = ids.length === 1 ? ids[0] : ids.join(',')
+  return conn.getStates(pattern) as Promise<Record<string, IoBrokerState>>
 }
 
 export async function setState(id: string, value: unknown): Promise<void> {
-  return emit('setState', id, value)
-}
-
-export function subscribeStates(id: string): void {
-  getSocket().emit('subscribeStates', id)
-}
-
-export function unsubscribeStates(id: string): void {
-  getSocket().emit('unsubscribeStates', id)
+  const conn = getConnection()
+  return conn.setState(id, value as ioBroker.StateValue)
 }
 
 export async function getAdapterInstances(adapterName: string): Promise<IoBrokerObject[]> {
   try {
-    const result = await getObjectView('system', 'instance', {
-      startkey: `system.adapter.${adapterName}.`,
-      endkey: `system.adapter.${adapterName}.香`,
-    })
-    return result.rows.map(r => r.value)
+    const all = await getAllObjects()
+    return Object.values(all).filter(
+      obj => obj?._id?.startsWith(`system.adapter.${adapterName}.`) && obj?.type === 'instance'
+    ) as IoBrokerObject[]
   } catch {
     return []
   }
@@ -72,19 +87,14 @@ export async function getHistory(
   const target = adapterInstance ?? (await detectHistoryAdapter())
   if (!target) return []
 
-  return new Promise((resolve, reject) => {
-    const socket = getSocket()
-    socket.emit(
-      'sendTo',
-      target,
-      'getHistory',
-      { id, options },
-      (result: { error?: string; result?: HistoryDataPoint[] }) => {
-        if (result?.error) reject(new Error(result.error))
-        else resolve(result?.result ?? [])
-      }
-    )
-  })
+  const conn = getConnection()
+  const result = await conn.sendTo<{ error?: string; result?: HistoryDataPoint[] }>(
+    target,
+    'getHistory',
+    { id, options }
+  )
+  if (result?.error) throw new Error(result.error)
+  return result?.result ?? []
 }
 
 let _cachedHistoryAdapter: string | null | undefined = undefined
