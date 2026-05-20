@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "apuvis",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "news": {
+      "0.0.2": {
+        "en": "Fix: convert main.js to ESM",
+        "de": "Fix: main.js auf ESM umgestellt"
+      },
       "0.0.1": {
         "en": "Initial release",
         "de": "Erste Version"
