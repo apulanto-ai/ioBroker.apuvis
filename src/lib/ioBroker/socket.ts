@@ -1,4 +1,8 @@
-import { io, Socket } from 'socket.io-client'
+import type { Socket } from 'socket.io-client'
+
+// socket.io is loaded via <script src="/socket.io/socket.io.js"> in index.html
+// This ensures we use the exact same client version as the ioBroker server
+declare const io: (url: string, opts?: Record<string, unknown>) => Socket
 
 type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'reconnecting'
 
@@ -24,13 +28,13 @@ export function connect(url: string): Promise<void> {
       socket.disconnect()
     }
 
-    // Always connect socket.io to the current page's origin.
-    // In dev:  Vite proxy forwards /socket.io → ioBroker (no CORS).
-    // In prod: app is served by ioBroker itself → same-origin, no CORS.
+    // Always connect to current origin:
+    // In dev:  Vite proxy forwards /socket.io → ioBroker
+    // In prod: app is served by ioBroker itself (same-origin)
     const effectiveUrl = window.location.origin
     currentUrl = url
     socket = io(effectiveUrl, {
-      transports: ['polling', 'websocket'],
+      transports: ['websocket'],
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 10000,
@@ -92,7 +96,6 @@ function emitStatus(status: ConnectionStatus) {
   statusListeners.forEach(l => l(status))
 }
 
-// Track all currently subscribed IDs for reconnect
 const subscribedIds = new Set<string>()
 
 export function trackSubscription(id: string) {
