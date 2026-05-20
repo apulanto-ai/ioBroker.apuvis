@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/CODING -type f -name \"*.json\" -o -name \"*.js\" -o -name \"*.html\" 2>/dev/null | head -20)",
+      "Read(//c/CODING/**)",
+      "Bash(ls -la /c/CODING/)",
+      "Read(//c/CODING//**)",
+      "Bash(npm create *)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command npm -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command pnpm -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command bun -ErrorAction SilentlyContinue)",
+      "PowerShell($env:PATH)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\nodejs\" -ErrorAction SilentlyContinue; Get-ChildItem \"C:\\\\Program Files \\(x86\\)\\\\nodejs\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:APPDATA\\\\npm\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\nodejs\" -ErrorAction SilentlyContinue)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); node --version; npm --version)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm create vite@latest . -- --template react-ts 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\"; npm create vite@latest apuVIS_tmp -- --template react-ts 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Get-ChildItem \"c:\\\\CODING\\\\apuVIS_tmp\" | ForEach-Object { Move-Item $_.FullName \"c:\\\\CODING\\\\apuVIS\\\\\" -Force }; Remove-Item \"c:\\\\CODING\\\\apuVIS_tmp\" -Recurse -Force; Get-ChildItem \"c:\\\\CODING\\\\apuVIS\")",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm install 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm install react-router-dom socket.io-client zustand immer react-grid-layout recharts lucide-react date-fns zod clsx tailwind-merge class-variance-authority 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm install -D tailwindcss postcss autoprefixer @types/react-grid-layout 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm install @radix-ui/react-dialog @radix-ui/react-switch @radix-ui/react-slider @radix-ui/react-select @radix-ui/react-checkbox @radix-ui/react-tooltip @radix-ui/react-progress @radix-ui/react-label @radix-ui/react-separator 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npx tailwindcss init -p 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; node node_modules/tailwindcss/lib/cli.js init -p 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; node -e \"const p = require\\('./node_modules/tailwindcss/package.json'\\); console.log\\(p.version, p.bin\\)\" 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\", \"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm install @tailwindcss/vite 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm run build 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; node -e \"const t = require\\('./node_modules/@types/react-grid-layout/index.d.ts'\\); console.log\\('ok'\\)\" 2>&1; Get-Content \"node_modules/@types/react-grid-layout/index.d.ts\" | Select-String \"onLayoutChange|type Layout\" | Select-Object -First 10)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm uninstall @types/react-grid-layout 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; Start-Process -FilePath \"cmd\" -ArgumentList \"/c npm run dev\" -WindowStyle Normal; Start-Sleep -Seconds 3; Write-Output \"Dev server started\")",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm run build 2>&1 | Select-String -Pattern \"error|warning|built\" | Select-Object -First 20)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\CODING\\\\apuVIS\\\\admin\")",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; npm install @iobroker/adapter-core 2>&1 | Select-String \"added|error\" | Select-Object -First 5)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); Set-Location \"c:\\\\CODING\\\\apuVIS\"; git init; git add .; git commit -m \"Initial release: ioBroker.apuvis v0.0.1\" 2>&1)"
+    ]
+  }
+}

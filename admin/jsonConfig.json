@@ -1,0 +1,21 @@
+{
+  "type": "panel",
+  "items": {
+    "info": {
+      "type": "staticText",
+      "text": "apuVIS läuft. Das Dashboard ist erreichbar über den iobroker.web-Adapter unter /apuvis/",
+      "newLine": true,
+      "sm": 12
+    },
+    "_divider": {
+      "type": "divider",
+      "sm": 12
+    },
+    "openDashboard": {
+      "type": "staticLink",
+      "href": "/apuvis/",
+      "text": "Dashboard öffnen →",
+      "sm": 12
+    }
+  }
+}

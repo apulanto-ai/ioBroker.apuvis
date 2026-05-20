@@ -1,0 +1,64 @@
+{
+  "common": {
+    "name": "apuvis",
+    "version": "0.0.1",
+    "news": {
+      "0.0.1": {
+        "en": "Initial release",
+        "de": "Erste Version"
+      }
+    },
+    "title": "apuVIS",
+    "titleLang": {
+      "en": "apuVIS - Modern Dashboard",
+      "de": "apuVIS - Modernes Dashboard"
+    },
+    "desc": {
+      "en": "Modern, interactive ioBroker dashboard with setup wizard. Replaces the old VIS adapter with a React-based SPA.",
+      "de": "Modernes, interaktives ioBroker-Dashboard mit Setup-Wizard. Ersetzt den alten VIS-Adapter durch eine React-basierte SPA."
+    },
+    "authors": [
+      "apulanto <apulanto@protonmail.com>"
+    ],
+    "keywords": [
+      "visualization",
+      "dashboard",
+      "smarthome",
+      "vis",
+      "react"
+    ],
+    "license": "MIT",
+    "type": "visualization",
+    "main": "main.js",
+    "loglevel": "info",
+    "enabled": true,
+    "mode": "daemon",
+    "platform": "Javascript/Node.js",
+    "os": ["linux", "darwin", "win32"],
+    "singleton": true,
+    "adminUI": {
+      "config": "json"
+    },
+    "wwwDontUpload": false,
+    "noConfig": false,
+    "noIntro": false,
+    "readme": "https://github.com/apulanto/ioBroker.apuvis/blob/main/README.md",
+    "icon": "admin/apuvis-icon.png",
+    "extIcon": "https://raw.githubusercontent.com/apulanto/ioBroker.apuvis/main/admin/apuvis-icon.png",
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "web": ">=4.0.0"
+      }
+    ]
+  },
+  "native": {
+    "port": 8082
+  },
+  "objects": [],
+  "instanceObjects": []
+}
